@@ -2,13 +2,6 @@
 # used for manipulating directory paths
 import os
 
-# # Import Graders
-# import sys
-# sys.path.append(sys.path.append(r'C:\Users\Orphanides\Documents\Statistics Learning\Machine Learning Coursea (Andrew Ng)\Assignment Grader Modules'))
-# sys.path
-# import utils
-# grader = utils.Grader()
-
 # Scientific and vector computation for python
 import numpy as np
 
@@ -24,22 +17,10 @@ os.listdir()
 data = np.loadtxt('ex1data2.txt', delimiter=',') #import csv file
 
 ######################Slicing Data: Defining Variables y and X#####################
-X = data[:, :2]  #all columns up to and EXCLUDING 2. #a[:end] - items from the beginning through end-1
-#https://github.com/mstampfer/Coursera-Stanford-ML-Python/blob/master/Coursera%20Stanford%20ML%20Python%20wiki.ipynb
-
-#previous comment
-#all rows, and all columns up to and including 2 [remember, python indexes starting from 0 so this is column 3 of the dataframe technically]
-#ie. [0,1,2] #wtf why is it not [:,:1]
+X = data[:, :2]  
 
 y = data[:, 2] #all rows of column 2, which is technically just column 2
 m = y.size
-
-
-#n is number of features
-#so m x n matrix is a matrix with the number of rows equal to observations, and each column corresponding to the feature.
-# eg. x_0 x_1 x_2
-#i=1  1    4   2       (2x3); 2 observations and 3 features
-#i=2  1    8   2
 
 #Printing out some rows
 print('{:>8s}{:>8s}{:>10s}'.format('X[:,0]', 'X[:, 1]', 'y'))
@@ -47,13 +28,8 @@ print('-'*26)
 for i in range(10):
     print('{:8.0f}{:8.0f}{:10.0f}'.format(X[i, 0], X[i, 1], y[i]))
 
-
 #############################Feature Normalisation##################################
 
-
-####Explanation###
-#If mu[i,:] only works if mu is a TWO DIMENSIONAL array.
-#If mu is a ONE DIMENSIONAL array, mu[i] only works.
 
 def  featureNormalize(X):
    
@@ -73,14 +49,8 @@ def  featureNormalize(X):
 
 X_norm, mu, sigma = featureNormalize(X) #execute the function and get the outputs X_norm, mu and sigma back
 
-#Check this feature normalisation code and a way to make it more efficient. Doesn't seem to be working right. Submit to
-#grader?
-
 print('Computed mean:', mu)
 print('Computed standard deviation:', sigma)
-
-# grader[4] = featureNormalize
-# grader.grade()
 
 X = np.concatenate([np.ones((m, 1)), X_norm], axis=1) #add the intercept feature x_0 values in [x_0 for all i = 1]
 #np.ones(m,1) creates a 2 dimensional (mx1) vector of ones.
@@ -93,22 +63,6 @@ def computeCostMulti(X, y, theta):
     J = 0 #why is this here in the instructions again? #to initialise the variable J presumably, it will be replaced by the following line
     J = (1/2*m) * sum( np.square( (X@theta - y) ) ) #Cost Function is really just average sum of squared residuals (with 2m in denominator for some reason instead of m)
     return J
-
-# #X@theta. X is a (mxn) array. So it would treat theta as a (nx1) vector so the inner shape dimensions match (ie. n = n) are compatible. So it spits out a
-# #(mx1) 1d array.
-# #test this with @
-# theta = np.full( (3,), 0)
-# a= X@theta #yes it works like exactly that!
-# b= X@theta - y
-# # c = np.reshape(b, (m,1))
-
-# sum(np.square(X@theta - y))
-# c = np.square(X@theta - y)
-# #try to replace the np.dots here with @ instead. https://mkang32.github.io/python/2020/08/30/numpy-matmul.html #np.dot VS @ operator
-
-# # theta = np.full( (3,), 0)
-# # J = computeCostMulti(X,y,theta)
-
 
 ############################Gradient Descent###########################################
 
@@ -157,29 +111,7 @@ print('theta computed from gradient descent: {:s}'.format(str(theta)))
 
 ########################################Estimate the price of a 1650 sq-ft, 3 br house###########################################################
 
-########################################Gradient Descent Method###################################
-# ======================= YOUR CODE HERE ===========================
-# Recall that the first column of X is all-ones. 
-# Thus, it does not need to be normalized.
-
-price = 0   # You should change this
-
-# ===================================================================
-
 print('Predicted price of a 1650 sq-ft, 3 br house (using gradient descent): ${:.0f}'.format(price))
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ######################################Normal Equation Solution########################################
 data = np.loadtxt('ex1data2.txt', delimiter=',')
@@ -227,11 +159,7 @@ theta = normalEqn(X, y);
 # Display normal equation's result
 print('Theta computed from the normal equations: {:s}'.format(str(theta)));
 
-# Estimate the price of a 1650 sq-ft, 3 br house
-# ====================== YOUR CODE HERE ======================
-
-
-
+###Using sklearn###
 from sklearn.linear_model import LinearRegression
 model = LinearRegression().fit(X, y)
 print('intercept:', model.intercept_)
